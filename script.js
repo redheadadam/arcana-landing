@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
-    const targetCount = 14; // 👈 change this to your real number
+    const targetCount = 127; // 👈 change this to your real number
     const duration = 2000;   // total animation time in ms
     let current = 0;
 
