@@ -1,23 +1,15 @@
-// Dynamic counter
-let count = 0;
-const counterElement = document.getElementById("counter");
+document.addEventListener("DOMContentLoaded", () => {
+    const counter = document.getElementById("counter");
+    const targetCount = 127; // 👈 Set your real or placeholder count here
+    const duration = 2000;   // total time for animation in ms
+    let current = 0;
+    const stepTime = Math.abs(Math.floor(duration / targetCount));
 
-// Simple demo increment every 2 seconds
-setInterval(() => {
-    count++;
-    counterElement.textContent = count;
-}, 2000);
-
-// Email form submission
-const form = document.getElementById("emailForm");
-const confirmation = document.getElementById("confirmation");
-
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-    if(email) {
-        // For MVP, we just confirm submission locally
-        confirmation.textContent = `Thanks! ${email} has been added to the waitlist.`;
-        form.reset();
-    }
+    const timer = setInterval(() => {
+        current += 1;
+        counter.textContent = current;
+        if (current >= targetCount) {
+            clearInterval(timer);
+        }
+    }, stepTime);
 });
