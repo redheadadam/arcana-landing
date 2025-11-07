@@ -1,35 +1,40 @@
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywTqaSGvCMq1Ef3ikfWEEG-liV9fxHsLUP7UrN-Zy3O4HAh9H7sncjNj-QbbZ5-RTf/exec"; // <-- replace with your deployed URL
+
 document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
-    const targetCount = 127; // 👈 change this to your real number
-    const duration = 2000;   // total animation time in ms
-    let current = 0;
+    const emailInput = document.getElementById("email");
+    const joinButton = document.querySelector("button");
+    const confirmation = document.getElementById("confirmation");
 
-    // Start hidden and slightly scaled down
-    counter.style.opacity = 0;
-    counter.style.transform = "scale(0.9)";
+    // 1️⃣ Fetch current count from Apps Script
+    fetch(WEB_APP_URL)
+        .then(response => response.json())
+        .then(data => {
+            counter.textContent = data.count;
+        })
+        .catch(err => console.error("Error fetching count:", err));
 
-    // Fade + zoom-in animation
-    counter.animate(
-        [
-            { opacity: 0, transform: "scale(0.9)" },
-            { opacity: 1, transform: "scale(1)" }
-        ],
-        {
-            duration: 800,
-            fill: "forwards",
-            easing: "ease-out"
-        }
-    );
+    // 2️⃣ Handle email submission
+    joinButton.addEventListener("click", () => {
+        const email = emailInput.value.trim();
+        if (!email) return;
 
-    // Count up animation
-    const stepTime = Math.max(10, Math.floor(duration / targetCount));
-
-    const timer = setInterval(() => {
-        current += 1;
-        counter.textContent = current;
-
-        if (current >= targetCount) {
-            clearInterval(timer);
-        }
-    }, stepTime);
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify({ email }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            counter.textContent = data.count;       // update count live
+            confirmation.textContent = "You're on the waitlist! ✅";
+            emailInput.value = "";
+        })
+        .catch(err => {
+            console.error("Error submitting email:", err);
+            confirmation.textContent = "Something went wrong. Try again.";
+        });
+    });
 });
