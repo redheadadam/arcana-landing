@@ -64,6 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("POST data:", data);
 
+            if (data.error) {
+                console.error("Server returned error:", data.error);
+                confirmation.textContent = "Server error: " + data.error;
+                return;
+            }
+
             counter.textContent = data.count ?? counter.textContent;
             confirmation.textContent = "You're on the waitlist! ✅";
             emailInput.value = "";
