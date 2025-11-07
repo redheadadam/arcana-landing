@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwdi19mHsrSY3zXOvFtzBfmOCnSoHXGqt84MsXXM6E5k9xtDqTpxuFlM2DLE-zGBj_t/exec"; // Your deployed Apps Script URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz-ut9JSVQZH3G-5juy38L23_8eDMb9HHQhK-r5-jp0Rvty3wO8_lRQ0_tT-i2LqgH9/exec"; // Your deployed Apps Script URL
 
 document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
@@ -43,12 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmation.textContent = "Submitting...";
 
         try {
-            // Use POST to send email to Apps Script
+            // Send email as URL-encoded form data to avoid CORS preflight
+            const formBody = new URLSearchParams({ email }).toString();
+
             const response = await fetch(WEB_APP_URL, {
                 method: "POST",
-                body: JSON.stringify({ email }),
+                body: formBody,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/x-www-form-urlencoded"
                 }
             });
 
