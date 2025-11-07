@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxbWfkAXkjMhvOGDofFGT17FMdaq7XwLQWafsXEY-vU2ZTJBcckQhUf-zSny9oSkNSH/exec"; // your deployed Apps Script URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxudIAEDBH_famcMZOOGOH3cmlt4NMBm4UHYp6sASEZkfRTQcamN55Uj6OxF01Absus/exec"; // your deployed Apps Script URL
 
 document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
