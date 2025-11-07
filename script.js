@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxg-ZteqHQrjs-kCWGdun7ZdfnaUAkGuxG-3rIw94R2k8Nhpw8jrFe4xXTcVXYWigjf/exec"; // your deployed Apps Script URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxg-ZteqHQrjs-kCWGdun7ZdfnaUAkGuxG-3rIw94R2k8Nhpw8jrFe4xXTcVXYWigjf/exec"; // Your deployed Apps Script URL
 
 document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const joinButton = document.getElementById("joinButton");
     const confirmation = document.getElementById("confirmation");
 
-    // 1️⃣ Fetch current count from Apps Script
+    // 1️⃣ Load current count from Apps Script
     fetch(WEB_APP_URL)
         .then(async (response) => {
             console.log("GET response status:", response.status);
@@ -31,17 +31,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2️⃣ Handle email submission
     joinButton.addEventListener("click", async (e) => {
-        e.preventDefault(); // prevents page reload
+        e.preventDefault();
         const email = emailInput.value.trim();
+
         if (!email) {
             confirmation.textContent = "Please enter a valid email.";
             return;
         }
 
-        joinButton.disabled = true; // prevent double submit
+        joinButton.disabled = true;
         confirmation.textContent = "Submitting...";
 
         try {
+            // Use POST to send email to Apps Script
             const response = await fetch(WEB_APP_URL, {
                 method: "POST",
                 body: JSON.stringify({ email }),
@@ -64,15 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("POST data:", data);
 
-            if (data.error) {
-                console.error("Server returned error:", data.error);
-                confirmation.textContent = "Server error: " + data.error;
-                return;
+            if (data.count !== undefined) {
+                counter.textContent = data.count;
+                confirmation.textContent = "You're on the waitlist! ✅";
+                emailInput.value = "";
+            } else if (data.error) {
+                console.error("Apps Script returned error:", data.error);
+                confirmation.textContent = "Something went wrong. Check console.";
             }
 
-            counter.textContent = data.count ?? counter.textContent;
-            confirmation.textContent = "You're on the waitlist! ✅";
-            emailInput.value = "";
         } catch (err) {
             console.error("Error submitting email:", err);
             confirmation.textContent = "Something went wrong. Check console.";
