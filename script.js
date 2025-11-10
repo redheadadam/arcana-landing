@@ -1,5 +1,5 @@
-// 🔗 Replace with your latest deployed Web App URL (ends with /exec)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw4BZEF8cTH0Y-p3atdr1FIithD8aygIK-UOxBlfNxLIQCV36JilBftWOwNcnebI3gU/exec";
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyFhQZwuxA1uAAoymRQEVuqJEU0X4jsEmLASD2HbusiUtXCn8DKAIA52489l6RiEBjB/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   const counter = document.getElementById("counter");
@@ -7,34 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const joinButton = document.getElementById("joinButton");
   const confirmation = document.getElementById("confirmation");
 
-  // 1️⃣ Load current count (GET)
-  fetch(WEB_APP_URL + "?v=" + Date.now())
-    .then(async (response) => {
-      console.log("GET response status:", response.status);
-      const text = await response.text();
-      console.log("GET response text:", text);
+  // 1️⃣ Load current count via JSONP (no CORS needed)
+  const script = document.createElement("script");
+  script.src = `${WEB_APP_URL}?callback=updateCount&_=${Date.now()}`;
+  document.body.appendChild(script);
 
-      try {
-        return JSON.parse(text);
-      } catch (err) {
-        console.error("Error parsing GET response JSON:", err);
-        throw err;
-      }
-    })
-    .then(data => {
-      console.log("GET data:", data);
-      counter.textContent = data.count ?? 0;
-    })
-    .catch(err => {
-      console.error("Error fetching count:", err);
+  window.updateCount = (data) => {
+    if (data && typeof data.count === "number") {
+      counter.textContent = data.count;
+    } else {
       confirmation.textContent = "Failed to load current count.";
-    });
+    }
+  };
 
-  // 2️⃣ Handle form submission (POST)
+  // 2️⃣ Handle POST (still via fetch)
   joinButton.addEventListener("click", async (e) => {
     e.preventDefault();
     const email = emailInput.value.trim();
-
     if (!email) {
       confirmation.textContent = "Please enter a valid email.";
       return;
@@ -45,40 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const formBody = new URLSearchParams({ email }).toString();
-
       const response = await fetch(WEB_APP_URL, {
         method: "POST",
         body: formBody,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
-      console.log("POST response status:", response.status);
-      const text = await response.text();
-      console.log("POST response text:", text);
-
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (err) {
-        console.error("Error parsing POST response JSON:", err);
-        throw err;
-      }
-
-      console.log("POST data:", data);
-
-      if (data.count !== undefined) {
-        counter.textContent = data.count;
-        confirmation.textContent = "You're on the waitlist! ✅";
-        emailInput.value = "";
-      } else if (data.error) {
-        confirmation.textContent = "Something went wrong. Check console.";
-        console.error("Apps Script returned error:", data.error);
-      }
-
+      const data = await response.json();
+      counter.textContent = data.count ?? counter.textContent;
+      confirmation.textContent = "You're on the waitlist! ✅";
+      emailInput.value = "";
     } catch (err) {
-      console.error("Error submitting email:", err);
+      console.error(err);
       confirmation.textContent = "Something went wrong. Check console.";
     } finally {
       joinButton.disabled = false;
