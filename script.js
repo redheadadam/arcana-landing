@@ -1,5 +1,5 @@
-const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbyFhQZwuxA1uAAoymRQEVuqJEU0X4jsEmLASD2HbusiUtXCn8DKAIA52489l6RiEBjB/exec";
+onst WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbxyGmTPknao7Jko_wPkWqXm_CySvYNaTIhUZ6v33qJcoMKcWOymtwvOYsv-TNXYMWM/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   const counter = document.getElementById("counter");
