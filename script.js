@@ -1,88 +1,72 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTSwUZCR3EoCsY864OUOAkOakXy1uS4KZaRoH4rQyLDTrCFjwpGNiVDER7nn2qUXwg/exec"; // Your deployed Apps Script URL
+const WEB_APP_URL = "YOUR_WEB_APP_URL_HERE"; 
+// example: "https://script.google.com/macros/s/AKfycbyTSwUZCR3EoCsY864OUOAkOakXy1uS4KZaRoH4rQyLDTrCFjwpGNiVDER7nn2qUXwg/exec"
 
-document.addEventListener("DOMContentLoaded", () => {
+// -----------------------
+// Load Current Count (GET)
+// -----------------------
+function loadCount() {
+    const script = document.createElement("script");
+    script.src = `${WEB_APP_URL}?callback=handleCount`;
+    document.body.appendChild(script);
+}
+
+function handleCount(data) {
+    console.log("Count response:", data);
     const counter = document.getElementById("counter");
-    const emailInput = document.getElementById("email");
-    const joinButton = document.getElementById("joinButton");
+
+    if (data && data.count !== undefined) {
+        counter.textContent = data.count;
+    } else {
+        console.error("Invalid count data:", data);
+    }
+}
+
+// -----------------------
+// Submit Email (POST via JSONP)
+// -----------------------
+function submitEmail(email) {
+    const script = document.createElement("script");
+    script.src = `${WEB_APP_URL}?callback=handleSubmit&email=${encodeURIComponent(email)}`;
+    document.body.appendChild(script);
+}
+
+function handleSubmit(data) {
+    console.log("Submit response:", data);
+
     const confirmation = document.getElementById("confirmation");
+    const counter = document.getElementById("counter");
 
-    // 1️⃣ Load current count from Apps Script (best-effort)
-    fetch(WEB_APP_URL)
-        .then(r => r.json())
-        .then(data => {
-            console.log("GET data:", data);
-            if (data && typeof data.count === "number") {
-                counter.textContent = data.count;
-            }
-        })
-        .catch(err => {
-            console.warn("Error fetching count (non-fatal):", err);
-            // Don't scare the user, just silently fail
-        });
+    if (data.error) {
+        confirmation.textContent = "Something went wrong. Try again.";
+    } else {
+        confirmation.textContent = "You're on the waitlist! ✅";
+        counter.textContent = data.count;
+    }
+}
 
-    // 2️⃣ Handle email submission
-    joinButton.addEventListener("click", async (e) => {
+// -----------------------
+// Setup Button
+// -----------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const joinButton = document.getElementById("joinButton");
+    const emailInput = document.getElementById("email");
+
+    loadCount(); // Load initial count immediately
+
+    joinButton.addEventListener("click", (e) => {
         e.preventDefault();
+
         const email = emailInput.value.trim();
+        const confirmation = document.getElementById("confirmation");
 
         if (!email) {
             confirmation.textContent = "Please enter a valid email.";
             return;
         }
 
-        joinButton.disabled = true;
         confirmation.textContent = "Submitting...";
+        submitEmail(email);
 
-        try {
-            const formBody = new URLSearchParams({ email }).toString();
-
-            const response = await fetch(WEB_APP_URL, {
-                method: "POST",
-                body: formBody,
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            });
-
-            console.log("POST response status:", response.status);
-
-            let data = null;
-            try {
-                const text = await response.text();
-                console.log("POST response text:", text);
-                data = JSON.parse(text);
-                console.log("POST data:", data);
-            } catch (parseErr) {
-                console.warn("Could not parse POST JSON (likely CORS / opaque response). Treating as success.", parseErr);
-            }
-
-            // If we *did* get JSON with a count, update it
-            if (data && typeof data.count === "number") {
-                counter.textContent = data.count;
-            } else {
-                // Fallback: try a fresh GET to refresh count
-                fetch(WEB_APP_URL)
-                    .then(r => r.json())
-                    .then(data2 => {
-                        if (data2 && typeof data2.count === "number") {
-                            counter.textContent = data2.count;
-                        }
-                    })
-                    .catch(err2 => {
-                        console.warn("Fallback GET after POST failed:", err2);
-                    });
-            }
-
-            confirmation.textContent = "You're on the waitlist! ✅";
-            emailInput.value = "";
-
-        } catch (err) {
-            console.error("Error submitting email:", err);
-            // We *know* Apps Script often still processed the request here;
-            // So we assume success from the user's POV:
-            confirmation.textContent = "You're on the waitlist! ✅ (If this shows up twice, blame CORS 🙃)";
-        } finally {
-            joinButton.disabled = false;
-        }
+        emailInput.value = "";
     });
 });
