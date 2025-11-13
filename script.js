@@ -1,5 +1,5 @@
-onst WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbxyGmTPknao7Jko_wPkWqXm_CySvYNaTIhUZ6v33qJcoMKcWOymtwvOYsv-TNXYMWM/exec";
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbxyGmTPknao7Jko_wPk-WqXm_CySvYNaTIhUZ6v33qJcoMKcWOymtwvOYsv-TNXYMWM/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   const counter = document.getElementById("counter");
@@ -14,6 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadCount = () => {
     const script = document.createElement("script");
     script.src = `${WEB_APP_URL}?callback=updateCount&_=${Date.now()}`;
+    script.async = true;
+    const cleanup = () => script.remove();
+    script.onload = cleanup;
+    script.onerror = () => {
+      cleanup();
+      confirmation.textContent = "Failed to load the current count.";
+    };
     document.body.appendChild(script);
   };
 
@@ -42,21 +49,36 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const formBody = new URLSearchParams({ email }).toString();
       const response = await fetch(WEB_APP_URL, {
-      await fetch(WEB_APP_URL, {
         method: "POST",
         body: formBody,
-        mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
       const data = await response.json();
       counter.textContent = data.count ?? counter.textContent;
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        console.warn("Unable to parse response JSON", jsonErr);
+      }
+
+      if (data && typeof data.count === "number") {
+        counter.textContent = data.count;
+      } else {
+        loadCount();
+      }
+
       confirmation.textContent = "You're on the waitlist! ✅";
       emailInput.value = "";
-      loadCount();
     } catch (err) {
       console.error(err);
       confirmation.textContent = "Something went wrong. Check console.";
+      confirmation.textContent = "Something went wrong. Please try again.";
     } finally {
       joinButton.disabled = false;
     }
