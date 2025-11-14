@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyupRV-XME2fwU6E9gBFlflrZU1SP2dieXD-03EIYObSMTa18SlzK7eiNBeClflKuW5/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw_rN8NSXHwNAagI_pgw63-8w9iazHGCP93MdJRiZeWNC3Wi8rninL4d6s_qHNK1HvNZw/exec";
 
 // -----------------------
 // Load Current Count
