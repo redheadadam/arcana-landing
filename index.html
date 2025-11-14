@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcana Spices</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Odometer CSS (Required) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/themes/odometer-theme-default.min.css" />
 </head>
 <body>
     <div class="container">
@@ -12,7 +16,8 @@
         <p>Exclusive rare spices delivered monthly.</p>
 
         <div class="counter">
-            <span id="counter">0</span> members signed up
+            <div id="odometer" class="odometer">0</div>
+            <span> members signed up</span>
         </div>
 
         <div class="signup">
@@ -22,6 +27,9 @@
 
         <p id="confirmation"></p>
     </div>
+
+    <!-- Odometer JS (Required) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script>
 
     <script src="script.js?v=100003"></script>
 </body>

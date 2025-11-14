@@ -1,56 +1,79 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw9kbEwUnNYCM540qiaIsk09RFj8D7sp5d3Lgg_0v5nnVf7z1jk9yt1D5Ie00nkeLC5cQ/exec";
 
-// --------------------------
-// Utility: Smooth count-up animation
-// --------------------------
-function animateCounter(el, start, end, duration = 1500) {
-    let startTimestamp = null;
+// -----------------------------------------------------
+// ODOMETER ENGINE
+// -----------------------------------------------------
 
-    function step(timestamp) {
-        if (!startTimestamp) startTimestamp = timestamp;
-        let progress = Math.min((timestamp - startTimestamp) / duration, 1);
+function renderOdometer(container, number) {
+    const str = String(number);
+    container.innerHTML = ""; // clear old digits
 
-        // Ease-out curve (cubic)
-        const eased = 1 - Math.pow(1 - progress, 3);
+    for (let char of str) {
+        const digitContainer = document.createElement("div");
+        digitContainer.className = "odometer-digit";
 
-        el.textContent = Math.floor(start + (end - start) * eased);
+        const stack = document.createElement("div");
+        stack.className = "digit-stack";
 
-        if (progress < 1) {
-            requestAnimationFrame(step);
+        // create digits 0–9
+        for (let i = 0; i < 10; i++) {
+            const d = document.createElement("div");
+            d.className = "digit";
+            d.textContent = i;
+            stack.appendChild(d);
         }
-    }
 
-    requestAnimationFrame(step);
+        digitContainer.appendChild(stack);
+        container.appendChild(digitContainer);
+
+        // animate to correct position
+        requestAnimationFrame(() => {
+            stack.style.transform = `translateY(-${char * 32}px)`;
+        });
+    }
 }
 
-// --------------------------
-// GET: Load Count + Animate
-// --------------------------
-async function loadCount() {
-    const counterEl = document.getElementById("counter");
+function animateOdometer(container, oldNum, newNum) {
+    const duration = 400; // ms
+    const steps = 20;
+    const diff = newNum - oldNum;
 
+    let i = 0;
+    const interval = setInterval(() => {
+        const value = Math.round(oldNum + (diff * (i / steps)));
+        renderOdometer(container, value);
+
+        if (i >= steps) clearInterval(interval);
+        i++;
+    }, duration / steps);
+}
+
+// -----------------------------------------------------
+// LOAD COUNT (GET)
+// -----------------------------------------------------
+async function loadCount() {
     try {
         const response = await fetch(WEB_APP_URL);
         const text = await response.text();
         const data = JSON.parse(text);
 
-        const realCount = Number(data.count) || 0;
+        console.log("Loaded count:", data);
 
-        // Animate from 0 → real count
-        animateCounter(counterEl, 0, realCount, 1500);
+        const od = document.getElementById("odometer");
+        const oldValue = parseInt(od.dataset.value || 0);
+
+        animateOdometer(od, oldValue, data.count);
+        od.dataset.value = data.count;
 
     } catch (err) {
-        console.error("Error loading count", err);
+        console.error("Error loading count:", err);
     }
 }
 
-// --------------------------
-// POST: Submit Email
-// --------------------------
+// -----------------------------------------------------
+// SUBMIT EMAIL (POST)
+// -----------------------------------------------------
 async function submitEmail(email) {
-    const confirmation = document.getElementById("confirmation");
-    confirmation.textContent = "Submitting...";
-
     try {
         const response = await fetch(WEB_APP_URL, {
             method: "POST",
@@ -60,46 +83,52 @@ async function submitEmail(email) {
         const text = await response.text();
         const data = JSON.parse(text);
 
+        console.log("Submit result:", data);
+
         if (data.error) {
-            confirmation.textContent = "Something went wrong. Try again.";
+            document.getElementById("confirmation").textContent =
+                "Error: " + data.error;
             return;
         }
 
-        // Show success
-        confirmation.textContent = "You're on the waitlist! ✅";
+        const od = document.getElementById("odometer");
+        const oldValue = parseInt(od.dataset.value || 0);
 
-        // Animate counter update
-        const counterEl = document.getElementById("counter");
-        const current = Number(counterEl.textContent) || 0;
-        animateCounter(counterEl, current, data.count, 1000);
+        animateOdometer(od, oldValue, data.count);
+        od.dataset.value = data.count;
+
+        document.getElementById("confirmation").textContent =
+            "You're on the waitlist! ✅";
 
     } catch (err) {
-        confirmation.textContent = "Something went wrong.";
-        console.error(err);
+        console.error("Submit error:", err);
+        document.getElementById("confirmation").textContent =
+            "Something went wrong.";
     }
 }
 
-// --------------------------
-// Event Listener
-// --------------------------
+// -----------------------------------------------------
+// SETUP BUTTON
+// -----------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     loadCount();
 
     const joinButton = document.getElementById("joinButton");
     const emailInput = document.getElementById("email");
+    const confirmation = document.getElementById("confirmation");
 
-    joinButton.addEventListener("click", (e) => {
+    joinButton.addEventListener("click", async (e) => {
         e.preventDefault();
 
         const email = emailInput.value.trim();
-
         if (!email) {
-            document.getElementById("confirmation").textContent =
-                "Please enter a valid email.";
+            confirmation.textContent = "Please enter a valid email.";
             return;
         }
 
-        submitEmail(email);
+        confirmation.textContent = "Submitting...";
+        await submitEmail(email);
+
         emailInput.value = "";
     });
 });

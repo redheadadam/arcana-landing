@@ -1,3 +1,6 @@
+/* ------------------------------
+   PAGE STYLING
+------------------------------ */
 body {
     font-family: Arial, sans-serif;
     background-color: #fefcf5;
@@ -17,17 +20,24 @@ body {
 
 h1 {
     color: #b05a2c;
+    margin-top: 0;
 }
 
-.counter {
-    font-size: 1.2em;
-    margin: 20px 0;
+p {
     color: #555;
+    font-size: 1.1em;
+}
+
+/* ------------------------------
+   SIGNUP INPUT + BUTTON
+------------------------------ */
+.signup {
+    margin-top: 20px;
 }
 
 input[type="email"] {
     padding: 10px;
-    width: 70%;
+    width: 65%;
     margin-right: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -44,4 +54,47 @@ button {
 
 button:hover {
     background-color: #923f1e;
+}
+
+/* ------------------------------
+   CONFIRMATION MESSAGE
+------------------------------ */
+#confirmation {
+    margin-top: 15px;
+    font-size: 1.05em;
+    color: #333;
+}
+
+/* ------------------------------
+   ODOMETER COUNTER STYLING
+------------------------------ */
+
+.odometer {
+    display: inline-flex;
+    margin: 20px auto;
+    font-size: 32px;
+    font-weight: bold;
+    color: #b05a2c;
+    letter-spacing: 2px;
+}
+
+.odometer-digit {
+    width: 24px; /* digit width */
+    height: 32px; /* height of one number */
+    overflow: hidden;
+    position: relative;
+    margin: 0 1px;
+}
+
+.digit-stack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.45s ease-out;
+}
+
+.digit {
+    height: 32px; /* must match odometer-digit height */
+    line-height: 32px;
+    font-size: 32px;
 }
