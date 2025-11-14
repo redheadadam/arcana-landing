@@ -1,56 +1,9 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw9kbEwUnNYCM540qiaIsk09RFj8D7sp5d3Lgg_0v5nnVf7z1jk9yt1D5Ie00nkeLC5cQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw9kbEwUnNYCM540qiaIsk09RFj8D7sp5d3Lgg_0v5nnVf7z1jk9yt1D5Ie00nkeLC5cQ/exec"; 
+// Replace with: https://script.google.com/macros/s/.../exec
 
-// -----------------------------------------------------
-// ODOMETER ENGINE
-// -----------------------------------------------------
-
-function renderOdometer(container, number) {
-    const str = String(number);
-    container.innerHTML = ""; // clear old digits
-
-    for (let char of str) {
-        const digitContainer = document.createElement("div");
-        digitContainer.className = "odometer-digit";
-
-        const stack = document.createElement("div");
-        stack.className = "digit-stack";
-
-        // create digits 0–9
-        for (let i = 0; i < 10; i++) {
-            const d = document.createElement("div");
-            d.className = "digit";
-            d.textContent = i;
-            stack.appendChild(d);
-        }
-
-        digitContainer.appendChild(stack);
-        container.appendChild(digitContainer);
-
-        // animate to correct position
-        requestAnimationFrame(() => {
-            stack.style.transform = `translateY(-${char * 32}px)`;
-        });
-    }
-}
-
-function animateOdometer(container, oldNum, newNum) {
-    const duration = 400; // ms
-    const steps = 20;
-    const diff = newNum - oldNum;
-
-    let i = 0;
-    const interval = setInterval(() => {
-        const value = Math.round(oldNum + (diff * (i / steps)));
-        renderOdometer(container, value);
-
-        if (i >= steps) clearInterval(interval);
-        i++;
-    }, duration / steps);
-}
-
-// -----------------------------------------------------
-// LOAD COUNT (GET)
-// -----------------------------------------------------
+// -----------------------
+// Load Current Count (GET)
+// -----------------------
 async function loadCount() {
     try {
         const response = await fetch(WEB_APP_URL);
@@ -59,20 +12,17 @@ async function loadCount() {
 
         console.log("Loaded count:", data);
 
-        const od = document.getElementById("odometer");
-        const oldValue = parseInt(od.dataset.value || 0);
-
-        animateOdometer(od, oldValue, data.count);
-        od.dataset.value = data.count;
+        const odometerEl = document.getElementById("odometer");
+        odometerEl.innerHTML = data.count;   // triggers odometer animation
 
     } catch (err) {
         console.error("Error loading count:", err);
     }
 }
 
-// -----------------------------------------------------
-// SUBMIT EMAIL (POST)
-// -----------------------------------------------------
+// -----------------------
+// Submit Email (POST)
+// -----------------------
 async function submitEmail(email) {
     try {
         const response = await fetch(WEB_APP_URL, {
@@ -83,33 +33,28 @@ async function submitEmail(email) {
         const text = await response.text();
         const data = JSON.parse(text);
 
-        console.log("Submit result:", data);
+        console.log("Submit response:", data);
 
         if (data.error) {
-            document.getElementById("confirmation").textContent =
-                "Error: " + data.error;
+            document.getElementById("confirmation").textContent = "Error: " + data.error;
             return;
         }
 
-        const od = document.getElementById("odometer");
-        const oldValue = parseInt(od.dataset.value || 0);
+        // Update odometer
+        const odometerEl = document.getElementById("odometer");
+        odometerEl.innerHTML = data.count;
 
-        animateOdometer(od, oldValue, data.count);
-        od.dataset.value = data.count;
-
-        document.getElementById("confirmation").textContent =
-            "You're on the waitlist! ✅";
+        document.getElementById("confirmation").textContent = "You're on the waitlist! ✅";
 
     } catch (err) {
         console.error("Submit error:", err);
-        document.getElementById("confirmation").textContent =
-            "Something went wrong.";
+        document.getElementById("confirmation").textContent = "Something went wrong.";
     }
 }
 
-// -----------------------------------------------------
-// SETUP BUTTON
-// -----------------------------------------------------
+// -----------------------
+// UI Setup
+// -----------------------
 document.addEventListener("DOMContentLoaded", () => {
     loadCount();
 
