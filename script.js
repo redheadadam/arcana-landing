@@ -11,7 +11,8 @@ function loadCount() {
 }
 
 function handleCount(data) {
-    console.log("Count response:", data);
+    console.log("🔥 handleCount fired with:", data);
+
     const counter = document.getElementById("counter");
 
     if (data && data.count !== undefined) {
@@ -20,6 +21,7 @@ function handleCount(data) {
         console.error("Invalid count data:", data);
     }
 }
+
 
 // -----------------------
 // Submit Email (POST via JSONP)
