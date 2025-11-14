@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTSwUZCR3EoCsY864OUOAkOakXy1uS4KZaRoH4rQyLDTrCFjwpGNiVDER7nn2qUXwg/exec"; // include /exec
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxLn4qoJ4a-nbMikOE-PwLqM37yNKaqoFdL-fyg6n_w7GvXxmeGsgG94fCWdzMthGQj/exec"; // include /exec
 
 document.addEventListener("DOMContentLoaded", () => {
     loadCount();
