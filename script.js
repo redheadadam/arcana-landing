@@ -1,5 +1,4 @@
-const WEB_APP_URL = "YOUR_WEB_APP_URL_HERE"; 
-// example: "https://script.google.com/macros/s/AKfycbyTSwUZCR3EoCsY864OUOAkOakXy1uS4KZaRoH4rQyLDTrCFjwpGNiVDER7nn2qUXwg/exec"
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTSwUZCR3EoCsY864OUOAkOakXy1uS4KZaRoH4rQyLDTrCFjwpGNiVDER7nn2qUXwg/exec"; 
 
 // -----------------------
 // Load Current Count (GET)
