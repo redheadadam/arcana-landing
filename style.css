@@ -172,3 +172,9 @@ body.luxury button:hover {
 body.luxury #confirmation {
     color: #c9a227;
 }
+
+
+body.luxury {
+    outline: 5px solid red !important;
+}
+
