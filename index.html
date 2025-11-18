@@ -1,33 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcana Spices</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Odometer CSS + JS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/themes/odometer-theme-minimal.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script>
+</head>
+
+
 <body>
-    <div class="hero">
-        <div class="hero-overlay"></div>
+    <div class="container">
+        <h1>Arcana Spices</h1>
+        <p>Exclusive rare spices delivered monthly.</p>
 
-        <div class="hero-content">
-            <div class="gold-line"></div>
-
-            <h1 class="brand-title">Arcana Spices</h1>
-
-            <p class="tagline">
-                Rare spices. Ancient origins. Curated for the modern palate.
-            </p>
-
-            <p class="description">
-                A members-only experience delivering the world's most elusive flavors — saffron, timut, Andaliman — sourced in micro-lots and released in limited drops.
-            </p>
-
-            <div class="counter">
-                <div id="odometer" class="odometer">0</div>
-                <span> members on the waitlist</span>
-            </div>
-
-            <div class="signup">
-                <input type="email" id="email" placeholder="Enter your email" required>
-                <button id="joinButton">Join the Waitlist</button>
-            </div>
-
-            <p id="confirmation"></p>
+        <!-- COUNTER -->
+        <div class="counter">
+            <div id="odometer" class="odometer">0</div>
+            <span> members signed up</span>
         </div>
+
+        <!-- SIGNUP FORM -->
+        <div class="signup">
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button id="joinButton">Join the Waitlist</button>
+        </div>
+
+        <p id="confirmation"></p>
     </div>
 
-    <script src="script.js?v=100004"></script>
+    <!-- Odometer JS (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script>
+
+    <!-- Your Script -->
+    <script src="script.js?v=100007"></script>
 </body>
+</html>

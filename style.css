@@ -1,129 +1,93 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400&display=swap');
-
-/* Full hero background */
+/* ---------------------
+   Global Page Styling
+---------------------- */
 body {
-    margin: 0;
-    background-color: #0A0A0A; /* obsidian */
-    color: #F9F5EF;
-    font-family: "Inter", sans-serif;
-}
-
-/* Optional background image */
-.hero {
-    position: relative;
-    min-height: 100vh;
-    background-image: url("https://images.unsplash.com/photo-1600180758895-dc82b3caa3b3?auto=format&fit=crop&w=1200&q=80");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Dark vignette overlay */
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0,0,0,0.25), rgba(0,0,0,0.75));
-}
-
-/* Content card */
-.hero-content {
-    position: relative;
-    max-width: 650px;
-    padding: 60px 40px;
+    font-family: "Georgia", serif;
+    background-color: #f9f4ea; /* luxury cream */
+    color: #3a2f2a;
     text-align: center;
-}
-
-/* Golden shimmer line */
-.gold-line {
-    width: 3px;
-    height: 60px;
-    background: linear-gradient(180deg, #C9A96E, #A88A5A);
-    margin: 0 auto 30px auto;
-    border-radius: 3px;
-    animation: shimmer 6s infinite ease-in-out alternate;
-}
-
-@keyframes shimmer {
-    0% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
-
-/* Brand title */
-.brand-title {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 3.2em;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #F9F5EF;
+    padding: 40px;
     margin: 0;
 }
 
-/* Tagline */
-.tagline {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.4em;
-    color: #C9A96E;
-    margin-top: 6px;
+/* Centered Card Container */
+.container {
+    max-width: 480px;
+    margin: auto;
+    background-color: #fff8e7;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Description */
-.description {
-    margin-top: 20px;
-    font-size: 1.05em;
-    line-height: 1.6;
-    color: #E6E1D9;
+/* Title */
+h1 {
+    font-family: "Georgia", serif;
+    letter-spacing: 0.5px;
+    color: #8a4b2a; /* spice-gold */
+    margin-bottom: 8px;
 }
 
-/* Counter */
+/* Subtitle */
+.container p {
+    margin-top: 0;
+    color: #5c493d;
+}
+
+/* ---------------------
+      Odometer Counter
+---------------------- */
 .counter {
-    margin-top: 36px;
-    font-size: 1.3em;
+    margin: 24px 0;
+    font-size: 1.4em;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
+/* Odometer number itself */
 .odometer {
-    font-size: 2.4em;
+    font-size: 2.2em;
     font-weight: bold;
-    color: #C9A96E;
+    color: #8a4b2a;
 }
 
-/* Inputs + button */
+/* ---------------------
+   Signup Input + Button
+---------------------- */
 .signup {
-    margin-top: 28px;
+    margin-top: 24px;
 }
 
 input[type="email"] {
-    padding: 12px;
-    width: 60%;
-    border: 1px solid #C9A96E;
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #d8c4b0;
     border-radius: 6px;
-    background-color: rgba(255,255,255,0.1);
-    color: #F9F5EF;
+    font-size: 1em;
+    margin-bottom: 12px;
 }
 
 button {
-    padding: 12px 20px;
-    background-color: #C9A96E;
-    color: #0A0A0A;
+    padding: 10px 18px;
+    background-color: #8a4b2a;
+    color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 600;
-    margin-left: 8px;
+    font-size: 1em;
+    margin-left: 6px;
+    transition: background-color 0.25s ease;
 }
 
 button:hover {
-    background-color: #b7915c;
+    background-color: #723c21;
 }
 
+/* Confirmation text */
 #confirmation {
-    margin-top: 16px;
-    color: #C9A96E;
+    margin-top: 14px;
+    color: #6a503e;
     font-weight: bold;
 }
