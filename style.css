@@ -124,9 +124,15 @@ body.luxury h1 {
     color: #c9a227; /* saffron gold */
     font-family: "Cormorant Garamond", serif;
     font-size: 2.2rem;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
+
+/* Subtle letterspacing for body text in luxury mode */
+body.luxury p {
+    letter-spacing: 0.2px;  /* NEW: ultra subtle refinement */
+}
+
 
 /* Subtitle text */
 body.luxury .container p {
