@@ -189,29 +189,43 @@ body.luxury::before {
 body.luxury::after {
     content: "";
     position: fixed;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120%;
+    top: -8%;
+    left: -8%;
+    width: 116%;
+    height: 116%;
     z-index: -2;
 
     background-image: url('saffron-bg.jpeg');
     background-size: cover;
     background-position: center;
 
+    /* More subtle, more glow */
     mix-blend-mode: screen;
-    opacity: 0.28;
-    filter: blur(10px) brightness(1.2) saturate(1.1);
+    opacity: 0.18;
+    filter:
+        blur(18px)
+        brightness(1.25)
+        saturate(1.35)
+        contrast(1.1);
 
-    animation: saffronDrift 90s ease-in-out infinite;
+    animation: saffronDrift 110s ease-in-out infinite;
     pointer-events: none;
 }
 
-@keyframes saffronDrift {
-    0%   { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-    50%  { transform: translate(-15px, 10px) scale(1.02) rotate(-1.2deg); }
-    100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+body.luxury.vignette::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: radial-gradient(
+        circle at center,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0.4) 80%
+    );
+    pointer-events: none;
 }
+
 
 
 
