@@ -218,11 +218,10 @@ body.luxury.vignette::before {
     inset: 0;
     z-index: -1;
 
-    background: radial-gradient(
-    	circle at center,
-    	rgba(0,0,0,0) 0%,
-    	rgba(0,0,0,0.8) 90%
-
+   background: radial-gradient(
+        circle at center,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0.4) 80%
 
 
     );
