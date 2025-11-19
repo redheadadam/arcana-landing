@@ -46,13 +46,14 @@ async function submitEmail(email) {
 
         const conf = document.getElementById("confirmation");
 
-	// reset fade-in animation
-	conf.style.animation = "none";
-	conf.offsetHeight;          // force reflow so animation can replay
-	conf.style.animation = "";  // allow CSS to apply it again
-
-	// update text
+	// update text FIRST
 	conf.textContent = "You're on the waitlist! ✅";
+
+	// reset + replay fade-in animation
+	conf.style.animation = "none";
+	conf.offsetHeight;          
+	conf.style.animation = "confirmFade 0.6s ease-out forwards";
+
 
 
     } catch (err) {
