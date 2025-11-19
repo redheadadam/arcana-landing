@@ -199,14 +199,16 @@ body.luxury::after {
     background-size: cover;
     background-position: center;
 
-    /* More subtle, more glow */
+    /* Medium strength blend — between version 1 and 2 */
     mix-blend-mode: screen;
-    opacity: 0.18;
+
+    /* Perfect mid-strength values */
+    opacity: 0.22;                    /* between 0.28 and 0.18 */
     filter:
-        blur(18px)
-        brightness(1.25)
-        saturate(1.35)
-        contrast(1.1);
+        blur(14px)                   /* less blur than v2, more glow than v1 */
+        brightness(1.22)             /* slight glow */
+        saturate(1.28)               /* richer spice tones */
+        contrast(1.05);              /* small gentle contrast */
 
     animation: saffronDrift 110s ease-in-out infinite;
     pointer-events: none;
