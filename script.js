@@ -44,7 +44,16 @@ async function submitEmail(email) {
         const odometerEl = document.getElementById("odometer");
         odometerEl.innerHTML = data.count;
 
-        document.getElementById("confirmation").textContent = "You're on the waitlist! ✅";
+        const conf = document.getElementById("confirmation");
+
+	// reset fade-in animation
+	conf.style.animation = "none";
+	conf.offsetHeight;          // force reflow so animation can replay
+	conf.style.animation = "";  // allow CSS to apply it again
+
+	// update text
+	conf.textContent = "You're on the waitlist! ✅";
+
 
     } catch (err) {
         console.error("Submit error:", err);
