@@ -212,7 +212,7 @@ body.luxury::after {
     pointer-events: none;
 }
 
-body.luxury.vignette::after {
+body.luxury.vignette::before {
     content: "";
     position: fixed;
     inset: 0;
