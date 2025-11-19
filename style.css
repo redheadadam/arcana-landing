@@ -119,6 +119,30 @@ body.luxury .container {
 
 }
 
+/* ---------------------------------------------------------
+   LUXURY MODE — EXAGGERATED Breathing Animation (Debug Only)
+---------------------------------------------------------- */
+
+body.luxury .container {
+    animation: debugBreath 3s ease-in-out infinite;   /* MUCH faster */
+}
+
+@keyframes debugBreath {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.06);      /* big, visible expansion */
+        opacity: 0.75;               /* clear fade */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
 /* Title becomes gold serif */
 body.luxury h1 {
     color: #c9a227; /* saffron gold */
