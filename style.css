@@ -195,7 +195,7 @@ body.luxury::after {
     height: 120%;
     z-index: -2;
 
-    background-image: url('saffron-big.jpeg');
+    background-image: url('saffron-bg.jpeg');
     background-size: cover;
     background-position: center;
 
