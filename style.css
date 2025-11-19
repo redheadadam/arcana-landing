@@ -175,63 +175,42 @@ body.luxury #confirmation {
 
 
 /* ---------------------------------------------------------
-   LUXURY MODE — Curved Saffron Threads (realistic)
+   LUXURY MODE — CINEMATIC SAFFRON BACKDROP
 ---------------------------------------------------------- */
+
+body.luxury::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background: #0a0a0a;
+}
+
 body.luxury::after {
     content: "";
     position: fixed;
-    top: -20%;
-    left: -20%;
-    width: 160%;
-    height: 160%;
-    z-index: -1;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    z-index: -2;
 
-    background:
-        /* Curved Thread 1 */
-        conic-gradient(
-            from 120deg,
-            rgba(255,150,40,0.23),
-            rgba(255,120,30,0.18) 20%,
-            transparent 70%
-        ),
-        /* Curved Thread 2 */
-        conic-gradient(
-            from -40deg,
-            rgba(255,180,70,0.20),
-            rgba(255,130,50,0.14) 25%,
-            transparent 80%
-        ),
-        /* Curved Thread 3 (thin & bright) */
-        conic-gradient(
-            from 200deg,
-            rgba(255,180,80,0.25),
-            rgba(255,140,40,0.18) 15%,
-            transparent 75%
-        ),
-        /* Curved Thread 4 */
-        conic-gradient(
-            from 300deg,
-            rgba(255,160,60,0.22),
-            rgba(255,110,30,0.15) 20%,
-            transparent 85%
-        );
+    background-image: url('saffron-big.jpeg');
+    background-size: cover;
+    background-position: center;
 
-    /* This is the magic that turns blobs into THREADS */
-    -webkit-mask:
-        radial-gradient(circle at 10% 20%, transparent 20%, black 60%),
-        radial-gradient(circle at 80% 40%, transparent 25%, black 70%),
-        radial-gradient(circle at 40% 90%, transparent 30%, black 75%),
-        radial-gradient(circle at 70% 80%, transparent 20%, black 65%);
-    mask:
-        radial-gradient(circle at 10% 20%, transparent 20%, black 60%),
-        radial-gradient(circle at 80% 40%, transparent 25%, black 70%),
-        radial-gradient(circle at 40% 90%, transparent 30%, black 75%),
-        radial-gradient(circle at 70% 80%, transparent 20%, black 65%);
+    mix-blend-mode: screen;
+    opacity: 0.28;
+    filter: blur(10px) brightness(1.2) saturate(1.1);
 
-    filter: blur(35px);
-    opacity: 0.52;
-    transform: rotate(-8deg);
+    animation: saffronDrift 90s ease-in-out infinite;
     pointer-events: none;
+}
+
+@keyframes saffronDrift {
+    0%   { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+    50%  { transform: translate(-15px, 10px) scale(1.02) rotate(-1.2deg); }
+    100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
 }
 
 
