@@ -108,6 +108,18 @@ body.luxury {
     font-family: "Inter", sans-serif;
 }
 
+/* Luxury soft fade-in on first load */
+body.luxury {
+    opacity: 0;
+    animation: luxuryFadeIn 1.2s ease-out forwards;
+}
+
+@keyframes luxuryFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
 /* Centered card goes DARK and elevated */
 body.luxury .container {
     background-color: #111; 
