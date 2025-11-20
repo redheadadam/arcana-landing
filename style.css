@@ -200,6 +200,14 @@ body.luxury input[type="email"] {
     border: 1px solid rgba(201,162,39,0.35);
 }
 
+body.luxury input[type="email"]:focus {
+    outline: none;
+    border-color: #c9a227; /* strong saffron highlight */
+    box-shadow: 0 0 10px rgba(201,162,39,0.25); /* luxury glow */
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+
 body.luxury button {
     background-color: #c9a227;
     color: #0a0a0a;
