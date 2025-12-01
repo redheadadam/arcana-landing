@@ -47,7 +47,7 @@ async function submitEmail(email) {
         const conf = document.getElementById("confirmation");
 
 	// update text FIRST
-	conf.textContent = "You're on the waitlist! ✅";
+	conf.textContent = "You're on the waitlist!";
 
 	// reset + replay fade-in animation
 	conf.style.animation = "none";
