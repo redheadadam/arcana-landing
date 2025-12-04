@@ -22,23 +22,6 @@ body {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Luxury settle-in animation for the card */
-body.luxury .container {
-    animation: containerSettle 0.9s ease-out forwards;
-}
-
-@keyframes containerSettle {
-    0% {
-        opacity: 0;
-        transform: translateY(6px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
 /* Title */
 h1 {
     font-family: "Georgia", serif;
@@ -81,7 +64,6 @@ h1 {
     border-top: 1px solid rgba(201,162,39,0.18); /* subtle gold line */
 }
 
-
 input[type="email"] {
     padding: 10px;
     width: 70%;
@@ -123,10 +105,8 @@ body.luxury {
     background-color: #0a0a0a !important;  /* matte obsidian */
     color: #f5f3ee;                        /* bone white */
     font-family: "Inter", sans-serif;
-}
 
-/* Luxury soft fade-in on first load */
-body.luxury {
+    /* Luxury soft fade-in on first load */
     opacity: 0;
     animation: luxuryFadeIn 1.2s ease-out forwards;
 }
@@ -136,30 +116,26 @@ body.luxury {
     100% { opacity: 1; }
 }
 
-
-
-/* Centered card goes DARK and elevated */
+/* Centered card goes DARK, elevated, and animated */
 body.luxury .container {
     background-color: #111; 
     border: 1px solid rgba(201, 162, 39, 0.25); /* subtle gold edge */
 
-    /* original shadow */
-    box-shadow: 0 0 40px rgba(0,0,0,0.6),
+    /* luxury glow shadows */
+    box-shadow:
+        0 0 40px rgba(0,0,0,0.6),
+        0 0 45px rgba(201,162,39,0.12),
+        0 0 15px rgba(201,162,39,0.05);
 
-                /* new luxury glows */
-                0 0 45px rgba(201,162,39,0.12),
-                0 0 15px rgba(201,162,39,0.05);
-
+    /* BOTH animations:
+       1) quick settle-in entrance
+       2) slow breathing loop (starts after 0.9s) */
+    animation:
+        containerSettle 0.9s ease-out forwards,
+        luxuryBreath 12s ease-in-out infinite 0.9s;
 }
 
-/* ---------------------------------------------------------
-   LUXURY MODE — Subtle Breathing Animation (Final Version)
----------------------------------------------------------- */
-
-body.luxury .container {
-    animation: luxuryBreath 12s ease-in-out infinite;
-}
-
+/* Subtle breathing loop */
 @keyframes luxuryBreath {
     0% {
         transform: scale(1);
@@ -175,7 +151,17 @@ body.luxury .container {
     }
 }
 
-
+/* Initial settle-in entrance */
+@keyframes containerSettle {
+    0% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* Title becomes gold serif */
 body.luxury h1 {
@@ -188,9 +174,8 @@ body.luxury h1 {
 
 /* Subtle letterspacing for body text in luxury mode */
 body.luxury p {
-    letter-spacing: 0.2px;  /* NEW: ultra subtle refinement */
+    letter-spacing: 0.2px;  /* ultra subtle refinement */
 }
-
 
 /* Subtitle text */
 body.luxury .container p {
@@ -237,7 +222,6 @@ body.luxury input[type="email"]:focus {
     transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-
 body.luxury button {
     background-color: #c9a227;
     color: #0a0a0a;
@@ -258,7 +242,6 @@ body.luxury button:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 12px rgba(201,162,39,0.45);
 }
-
 
 /* Luxury confirmation fade-in animation */
 body.luxury #confirmation {
@@ -281,8 +264,6 @@ body.luxury #confirmation {
         transform: translateY(0);
     }
 }
-
-
 
 /* ---------------------------------------------------------
    LUXURY MODE — CINEMATIC SAFFRON BACKDROP
@@ -324,22 +305,22 @@ body.luxury::after {
     pointer-events: none;
 }
 
+@keyframes saffronDrift {
+    0%   { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+    50%  { transform: translate(-15px, 10px) scale(1.02) rotate(-1.2deg); }
+    100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+}
+
 body.luxury.vignette::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
 
-   background: radial-gradient(
+    background: radial-gradient(
         circle at center,
         rgba(0,0,0,0) 0%,
         rgba(0,0,0,0.4) 80%
-
-
     );
     pointer-events: none;
 }
-
-
-
-
