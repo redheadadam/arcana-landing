@@ -204,6 +204,164 @@ body.luxury .odometer {
     text-shadow: 0 0 6px rgba(201,162,39,0.35);
 }
 
+/* ---------------------------------------------------------
+   ODOMETER LUXURY EFFECT PACK
+   (Add all 5 — activate one at a time via class)
+---------------------------------------------------------- */
+
+
+/* =========================================================
+   OPTION 1 — Soft Gold Halo (subtle, always-on refinement)
+========================================================= */
+body.luxury .odometer--halo {
+    text-shadow:
+        0 0 4px rgba(201,162,39,0.5),
+        0 0 10px rgba(201,162,39,0.25);
+    letter-spacing: 0.04em;
+}
+
+
+
+/* =========================================================
+   OPTION 2 — Breathing Gold Glow (slow, gentle, animated)
+========================================================= */
+body.luxury .odometer--glow {
+    animation: odometerGlow 5.5s ease-in-out infinite;
+}
+
+@keyframes odometerGlow {
+    0% {
+        text-shadow:
+            0 0 4px rgba(201,162,39,0.4),
+            0 0 10px rgba(201,162,39,0.15);
+    }
+    50% {
+        text-shadow:
+            0 0 8px rgba(201,162,39,0.7),
+            0 0 18px rgba(201,162,39,0.3);
+    }
+    100% {
+        text-shadow:
+            0 0 4px rgba(201,162,39,0.4),
+            0 0 10px rgba(201,162,39,0.15);
+    }
+}
+
+
+
+/* =========================================================
+   OPTION 3 — Moving Gold Sheen (cinematic light sweep)
+========================================================= */
+body.luxury .odometer--sheen {
+    position: relative;
+    overflow: hidden;
+}
+
+body.luxury .odometer--sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.15) 35%,
+        rgba(255,220,120,0.35) 50%,
+        rgba(255,255,255,0.15) 65%,
+        transparent 100%
+    );
+    mix-blend-mode: screen;
+
+    transform: translateX(-120%);
+    animation: odometerSheen 6.5s ease-in-out infinite;
+}
+
+@keyframes odometerSheen {
+    0%   { transform: translateX(-120%); opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translateX(120%); opacity: 1; }
+    60%  { opacity: 0; }
+    100% { transform: translateX(120%); opacity: 0; }
+}
+
+
+
+/* =========================================================
+   OPTION 4 — Heat Mirage Shimmer (tiny atmospheric wobble)
+========================================================= */
+body.luxury .odometer--mirage {
+    animation: odometerMirage 7s ease-in-out infinite;
+}
+
+@keyframes odometerMirage {
+    0% {
+        transform: translateY(0) skewX(0deg);
+        filter: blur(0);
+    }
+    40% {
+        transform: translateY(0.5px) skewX(0.3deg);
+        filter: blur(0.35px);
+    }
+    60% {
+        transform: translateY(-0.5px) skewX(-0.3deg);
+        filter: blur(0.35px);
+    }
+    100% {
+        transform: translateY(0) skewX(0deg);
+        filter: blur(0);
+    }
+}
+
+
+
+/* =========================================================
+   OPTION 5 — Sparkle Twinkle (tiny glint every few seconds)
+========================================================= */
+body.luxury .odometer--sparkle {
+    position: relative;
+}
+
+body.luxury .odometer--sparkle::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    right: 18%;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255,255,255,0.9) 0%,
+        transparent 60%
+    );
+    opacity: 0;
+    transform: scale(0.4);
+    mix-blend-mode: screen;
+
+    animation: odometerSparkle 8s ease-in-out infinite;
+}
+
+@keyframes odometerSparkle {
+    0%, 70% {
+        opacity: 0;
+        transform: scale(0.4) rotate(0deg);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1) rotate(12deg);
+    }
+    80% {
+        opacity: 0.8;
+        transform: scale(0.85) rotate(-10deg);
+    }
+    90%, 100% {
+        opacity: 0;
+        transform: scale(0.4) rotate(0deg);
+    }
+}
+
 body.luxury .counter span {
     color: #f5f3ee;
 }
