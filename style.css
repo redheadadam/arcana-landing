@@ -561,3 +561,41 @@ body.luxury .odometer--halo::after {
   animation: odometerSparkle 7.5s ease-in-out infinite;
 }
 
+
+/* --- ODOMETER: make it a plaque, not a ring --- */
+body.luxury .odometer {
+  border: none !important;                 /* kill the thin ring */
+  background: none !important;             /* reset if needed */
+  padding: 0 !important;                   /* reset padding */
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* The actual plaque */
+body.luxury .odometer.odometer--sparkle,
+body.luxury .odometer.odometer--halo {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2ch;                        /* keeps it from collapsing */
+  padding: 0.4rem 1.05rem !important;
+  border-radius: 14px !important;          /* luxury plaque, not pill */
+  background: radial-gradient(circle at 18% 0%, #241609, #070503 72%) !important;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.55),
+    0 0 26px rgba(201,162,39,0.22) !important;
+}
+
+/* A subtle inner edge so it feels engraved (no “circle outline”) */
+body.luxury .odometer.odometer--sparkle::before,
+body.luxury .odometer.odometer--halo::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(201,162,39,0.14);
+  opacity: 0.9;
+}
+
+
